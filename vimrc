@@ -53,11 +53,14 @@ let mapleader = ","
 let g:mapleader = ","
 
 " Fast saving
-nmap <leader>w :w!<cr>
+nmap <C-w> :w!<cr>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
+
+" Enable modelines
+set modeline
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -132,6 +135,9 @@ set tm=500
 
 " Add a bit extra margin to the left
 set foldcolumn=1
+
+" enable line numbers
+set number
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -213,9 +219,6 @@ map k gk
 map <space> /
 map <c-space> ?
 
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
 " Smart way to move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -229,24 +232,15 @@ map <leader>bd :Bclose<cr>
 map <leader>ba :bufdo bd<cr>
 
 " Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext 
-
-" Let 'tl' toggle between this and the last accessed tab
-let g:lasttab = 1
-nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
-
+map <C-o> :tabedit 
+map <silent> <C-b> :tabprevious<cr>
+map <silent> <C-n> :tabnext<cr>
+map <silent> <C-x> :w!<cr>:tabclose<cr>
+map <silent> <C-y> :wa!<cr>:tabonly<cr>
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
-
-" Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+map <C-p> :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Specify the behavior when switching between buffers 
 try
@@ -281,8 +275,8 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 map 0 ^
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
-nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
+nmap <M-j> mz:m+<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
@@ -301,6 +295,7 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -426,13 +421,4 @@ endfunction
 
 
 " CUSTOM
-nmap <silent> <C-n> :tabnext<CR>
-nmap <silent> <C-b> :tabprev<CR>
-imap <silent> <C-n> <esc><C-n>
-imap <silent> <C-b> <esc><C-b>
-set modeline
-set number
 
-
-" PROJECT SPECIFIC
-autocmd BufRead,BufNewFile /home/mathis/dev/ue1-java/* set expandtab!
