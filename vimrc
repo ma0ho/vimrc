@@ -17,6 +17,7 @@ Plugin 'VundleVim/Vundle.vim'
 " user plugins
 Plugin 'JuliaLang/julia-vim'
 Plugin 'jwalton512/vim-blade'
+Plugin 'https://github.com/rhysd/vim-llvm.git'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
